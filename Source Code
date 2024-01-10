@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta 
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>React Router | Codehelp</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+
+
+
+// *************************************************\\
+const express = require('express');
+const app = express();
+require('dotenv').config();
+const bodyParser = require("body-parser");
+const cors = require('cors');
+const port = process.env.PORT || 3000;
+const routes = require('./Routes/routes');
+const dbConnect = require('./Config/database');
+dbConnect();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(routes);
+
+app.use(express.json());
+
+app.listen(port, () => {
+    console.log(Server is running on port ${port});
+});
+
+
+//****************************************************\\
+
+
+const mongoose = require('mongoose');
+
+const dbConnect=()=>mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(()=>console.log('Database Connected'))
+.catch((err)=>
+{console.log(err)
+process.exit(1)});
+
+module.exports=dbConnect;
+
+//************************************************************\\
+
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
+      colors: {
+        richblack: {
+          5: "#F1F2FF",
+          25: "#DBDDEA",
+          100: "#AFB2BF",
+          200: "#999DAA",
+          700: "#2C333F",
+          800: "#161D29",
+          900: "#000814",
+        },
+        blue: {
+          100: "#47A5C5",
+        },
+        pink: {
+          200: "#EF476F",
+        },
+        yellow: {
+          50: "#FFD60A",
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+//**************************************\\
+
+{
+  "name": "router-project",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.5",
+    "concurrently": "^8.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.8.0",
+    "react-native-phone-call": "^1.2.0",
+    "react-router-dom": "^6.9.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "cd server && npm run dev",
+    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  }
+}
